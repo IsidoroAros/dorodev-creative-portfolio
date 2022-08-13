@@ -1,0 +1,10 @@
+{"presets": ["@babel/preset-env",
+["@babel/preset-react",
+  {
+    "pragma": "dom",
+    "pragmaFrag": "DomFrag",
+    "throwIfNamespace": false,
+    "runtime": "automatic",
+    "importSource": "custom-jsx-library"
+  }
+]]}

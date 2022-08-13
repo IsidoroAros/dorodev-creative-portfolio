@@ -12,6 +12,8 @@ const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
 // Plugin to improve files minification
 const TerserPlugin = require('terser-webpack-plugin')
 
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 const IS_DEVELOPMENT = (process.env.NODE_END = 'dev')
 
 // Saves the path of the specified directories
@@ -63,6 +65,10 @@ module.exports = {
       }
     }),
 
+    new HtmlWebpackPlugin({
+      template: path.join(dirApp, 'index.html')
+    }),
+
     new CleanWebpackPlugin()
 
   ],
@@ -72,8 +78,21 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader'
+        },
+        options: {
+          presets: ['@babel/preset-env',
+            ['@babel/preset-react',
+              {
+                pragma: 'dom',
+                pragmaFrag: 'DomFrag', // default is React.Fragment (only in classic runtime)
+                throwIfNamespace: false, // defaults to true
+                runtime: 'automatic', // defaults to classic
+                importSource: 'custom-jsx-library' // defaults to react (only in automatic runtime)
+              }
+            ]]
         }
       },
 
